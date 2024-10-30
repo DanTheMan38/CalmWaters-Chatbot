@@ -1,0 +1,348 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Chatbot icon without visible button background */
+.chatbot-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 70px;
+    height: 70px;
+    background-size: contain;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    animation: float 3s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: transform 0.5s, opacity 0.5s;
+}
+
+/* Floating animation for the icon */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-10px);
+        opacity: 0.9;
+    }
+}
+
+/* Chatbot icon hidden */
+.chatbot-icon.hidden {
+    display: none;
+}
+
+/* Animation for the chatbot icon sliding in */
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+/* Chatbot icon visible and animating */
+.chatbot-icon.showing {
+    display: flex;
+    animation: slideUp 0.3s forwards; /* Adjusted duration for quicker animation */
+}
+
+/* Initial state for chat window */
+.chat-window {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 350px;
+    max-width: 90%;
+    height: 500px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    z-index: 1000;
+    overflow: hidden;
+    opacity: 0;
+    transform: scale(0);
+    transform-origin: bottom right;
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out; /* Adjusted duration for quicker animation */
+    display: none;
+}
+
+/* When the chat window is open */
+.chat-window.open {
+    display: block;
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Chatbox styling */
+.chatbox {
+    padding-top: 40px; /* Move the chatbox content down */
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 20px; /* Keep other padding values unchanged */
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 0;
+    font-family: 'Montserrat', sans-serif;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Typing Indicator Styles */
+.message.typing {
+    justify-content: flex-start;
+}
+
+.typing-bubble {
+    display: flex;
+    align-items: center;
+    background-color: transparent; /* Remove background color */
+    padding: 0; /* Remove padding */
+    border-radius: 0; /* Remove rounded corners */
+    box-shadow: none; /* Remove shadow */
+}
+
+.typing-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #ccc;
+    border-radius: 50%;
+    margin: 0 2px;
+    animation: blink 1s infinite;
+}
+
+.typing-dot:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes blink {
+    0%, 80%, 100% {
+        opacity: 0.2;
+    }
+    40% {
+        opacity: 1;
+    }
+}
+
+/* Adjust message bubble styles if necessary */
+.message .message-content {
+    max-width: 100%;
+    width: 100%;
+    padding: 0; /* Remove padding */
+    border-radius: 0; /* Remove rounded corners */
+    background-color: transparent; /* Remove background color */
+    color: black;
+    box-shadow: none; /* Remove shadow */
+    word-wrap: break-word;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.messages {
+    flex: none;
+    height: 391px;
+    padding: 20px;
+    padding-bottom: 10px;
+    overflow-y: auto;
+    background-color: #ffffff;
+    border-radius: 0;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Message container styling */
+.message {
+    width: 100%;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+/* Common message paragraph styling */
+.message p {
+    max-width: 80%;
+    padding: 10px;
+    border-radius: 10px;
+    word-wrap: break-word;
+    position: relative;
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* User message styling */
+.message.user {
+    justify-content: flex-end;
+}
+
+.message.user p {
+    max-width: 100%;
+    background-color: #375163;
+    color: white;
+    line-height: 1.5;
+}
+
+/* Chatbot message styling */
+.message.bot {
+    justify-content: flex-start;
+    width: 100%;
+    margin: 0;
+}
+
+.message.bot p, .message.bot ul {
+    max-width: 100%;
+    width: 100%;
+    padding: 0; /* Remove padding */
+    border-radius: 0; /* Remove rounded corners */
+    background-color: transparent; /* Remove background color */
+    color: black;
+    box-shadow: none; /* Remove shadow */
+    word-wrap: break-word;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.message.bot ul {
+    list-style-type: disc;
+    padding-left: 30px; /* Ensure proper indentation for list items */
+    margin: 15px 0 5px 0;
+}
+
+.message.bot li {
+    margin-bottom: 5px; /* Add some space between list items */
+}
+
+.input-area {
+    display: flex;
+    align-items: center;
+    width: 250px;
+    box-sizing: border-box;
+    justify-content: flex-start;
+    padding-left: 10px;
+}
+
+/* Create an input-container to hold both the input and the button */
+.input-container {
+    position: relative; /* Position relative to allow the button to be placed inside the input */
+    width: 100%; /* Ensure the container takes the full width */
+}
+
+.input-area input[type="text"] {
+    width: 330px; /* Input takes up the entire width of the container */
+    padding: 15px;
+    padding-right: 50px; /* Space on the right to make room for the button */
+    border: 1px solid #ccc;
+    border-radius: 10px; /* Rounded corners */
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.input-area input[type="text"]:focus {
+    border-color: #375163; /* Change border color when clicked */
+    outline: none; /* Removes default browser outline */
+}
+
+.input-area button[type="submit"] {
+    position: absolute;
+    right: 10px; /* Small gap from the right edge */
+    top: 50%;
+    transform: translateY(-50%); /* Slightly shift up */
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    background-color: transparent;
+    color: #ccc;
+    border: none;
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 0.8;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.input-area button[type="submit"].active {
+    background-color: #375163; /* Lighting up background when typing */
+    color: white; /* Invert the color when active */
+}
+
+.input-area button[type="submit"]:hover:not(:disabled) {
+    background-color: #375163; /* Change background when hovered */
+    color: white;
+}
+
+.input-area button[type="submit"]:disabled {
+    background-color: transparent; /* Keep it transparent when disabled */
+    color: #ccc; /* Dim color for the arrow */
+    cursor: not-allowed;
+}
+
+/* Close button styling */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 24px;
+    color: #aaa;
+    font-weight: bold;
+    transition: color 0.3s, background-color 0.3s; /* Transition for smooth hover effect */
+    width: 21px; /* Set width and height to be equal */
+    height: 21px; /* Ensures the button is a perfect circle */
+    border-radius: 50%; /* Make it a circle */
+    display: flex; /* Use flex to center the X inside */
+    align-items: center;
+    justify-content: center;
+    background-color: transparent; /* Initially no background */
+}
+
+.close-btn:hover {
+    color: white; /* Change X color to white */
+    background-color: #375163; /* Change background to #375163 */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+}
+
+/* Styles for rendered HTML content */
+.bot strong {
+    font-weight: 700;
+}
+
+.bot ul {
+    padding-left: 20px;
+    margin: 5px 0;
+}
+
+.bot li {
+    margin-bottom: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 400px) {
+    .chat-window {
+        width: 90%;
+        right: 5%;
+    }
+
+    .chat-window::after {
+        right: 25px;
+    }
+}
