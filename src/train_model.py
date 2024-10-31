@@ -7,6 +7,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.utils import resample  # Import resample for oversampling
 from transformers import pipeline
+from transformers import DataCollatorWithPadding  # Import DataCollatorWithPadding
 
 # Load the data
 df = pd.read_csv('data/faq_data.csv')
@@ -134,6 +135,9 @@ def compute_metrics(pred):
         'f1': f1
     }
 
+# Initialize the Data Collator
+data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
+
 # Initialize the Trainer
 trainer = Trainer(
     model=model,
@@ -141,6 +145,7 @@ trainer = Trainer(
     train_dataset=train_dataset,
     eval_dataset=val_dataset,
     compute_metrics=compute_metrics,
+    data_collator=data_collator,  # Use the data collator
 )
 
 # Train the model
@@ -172,11 +177,36 @@ label_intents = {v: k for k, v in intent_labels.items()}
 
 # Test inputs
 test_inputs = [
-    "What amenities are available at Clifftop Cabin?",
-    "How can I contact Calm Waters Plett?",
-    "What are the house rules?",
-    "Tell me about the attractions in Plettenberg Bay.",
-    "What fees are associated with your services?",
+    "What unique features does Clifftop Cabin offer for families?",
+    "Is there a scenic view from Wildside Cabin?",
+    "Can you describe the layout of Rondebos Retreat?",
+    "What kind of entertainment options are available in Hill Penthouse Plett?",
+    "What distinguishes Ichibi Luxury Lodge from other accommodations?",
+    "What is the check-in process for each property?",
+    "Are there any hidden fees I should be aware of before booking?",
+    "Can I get a detailed list of amenities for each rental property?",
+    "What is the cancellation policy for my reservation?",
+    "Are there any special promotions or discounts available currently?",
+    "How do I modify my booking for Dassen Eiland Home?",
+    "What documents do I need to provide when checking in?",
+    "Can I book multiple properties for the same dates?",
+    "What is the maximum number of guests allowed at Arrowood Apartment?",
+    "How do I check the availability of Keurbooms River Apartment?",
+    "What local attractions are within walking distance of Panorama Seaview Apart?",
+    "Are there any recommended restaurants near the properties?",
+    "What outdoor activities can I enjoy while staying at Robberg Ridge?",
+    "Can you suggest some family-friendly activities in Plettenberg Bay?",
+    "What are the best hiking trails nearby?",
+    "How can I reach out for support during my stay?",
+    "Is there a way to contact the property manager if I have an issue?",
+    "What should I do if I forget the lockbox code?",
+    "Are there any specific instructions for using the amenities?",
+    "Can you guide me on how to leave feedback after my stay?",
+    "What are the benefits of booking directly through Calm Waters Plett?",
+    "How do I find the nearest grocery store from my accommodation?",
+    "Are pets allowed at any of the properties?",
+    "What is the minimum stay requirement for each property?",
+    "Can I request special accommodations, such as extra beds or cribs?"
 ]
 
 for input_text in test_inputs:
