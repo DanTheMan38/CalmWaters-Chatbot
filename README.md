@@ -51,10 +51,17 @@ An NLP (DistilBERT) chatbot designed to assist guests with booking inquiries, FA
 
    *Note:* Ensure you have Python 3.x installed on your system.
 
-5. **Set Up the Fine-Tuned Model**
+5. **Retrain the Model**
 
-   - Place your fine-tuned DistilBERT model in the `fine_tuned_model` directory.
-   - Ensure the paths in `app.py` and `train.py` point to the correct locations.
+   The `fine_tuned_model` file was removed due to GitHub storage limitations. Before running the chatbot, retrain the model with `train.model.py`:
+
+   ```bash
+   python train.model.py
+   ```
+
+6. **Set Up the Labels in `chatbot.py`**
+
+   Ensure that labels for intents in `chatbot.py` align with your intents in the data and have no duplicates. Adjust these labels if you add or change intents to maintain accuracy.
 
 ## Usage
 
@@ -83,7 +90,7 @@ An NLP (DistilBERT) chatbot designed to assist guests with booking inquiries, FA
 
   The main Flask application that handles routing, user input, and generating responses using the fine-tuned DistilBERT model.
 
-- **`train.py`**
+- **`train.model.py`**
 
   Script used to train and fine-tune the DistilBERT model with custom intent data from `faq_data.csv`.
 
@@ -111,7 +118,7 @@ An NLP (DistilBERT) chatbot designed to assist guests with booking inquiries, FA
 
 - **Model and Data Paths**
 
-  Ensure that the file paths in `app.py` and `train.py` point to the correct locations of your model and data files.
+  Ensure that the file paths in `app.py` and `train.model.py` point to the correct locations of your model and data files.
 
   ```python
   # Example from app.py
@@ -128,7 +135,7 @@ An NLP (DistilBERT) chatbot designed to assist guests with booking inquiries, FA
 
 - **Run Test Inputs**
 
-  Use the provided `test_inputs` in `train.py` to evaluate the model's responses.
+  Use the provided `test_inputs` in `train.model.py` to evaluate the model's responses.
 
 - **Sample Questions**
 
